@@ -49,7 +49,9 @@ public class AccessHandler {
 
   @PostMapping("/requests/{accessId}/accept")
   public void acceptRequest(@AuthenticationPrincipal UserResponse userResponse, @PathVariable UUID accessId) {
-    userAccessService.acceptRequest(accessId, userResponse.getId().toString());
+    System.out.println("REQUETST ACCESS ID ACCEPRT");
+    System.out.println(accessId.toString());
+    userAccessService.acceptRequest(accessId, userResponse.getId());
   }
 
   @PostMapping("/requests/{accessId}/reject")

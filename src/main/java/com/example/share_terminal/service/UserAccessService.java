@@ -34,7 +34,7 @@ public class UserAccessService {
 
   public void requestAccess(String fromUserId, String toUserId) {
     User fromUser = userRepository.getReferenceById(UUID.fromString(fromUserId));
-    User toUser = userRepository.getReferenceById(UUID.fromString(toUserId));
+    User toUser = userRepository.findByEmail(toUserId).orElseThrow();
 
     UserAccess access = new UserAccess();
     access.setConnectedFrom(fromUser);
@@ -57,11 +57,9 @@ public class UserAccessService {
         .collect(Collectors.toList());
   }
 
-  public void acceptRequest(UUID accessId, String userId) {
-    UserAccess access = userAccessRepository.findById(accessId).orElseThrow();
-    if (!access.getConnectedTo().getId().equals(UUID.fromString(userId))) {
-      throw new RuntimeException("Not allowed to accept this request");
-    }
+  public void acceptRequest(UUID fromUserId, UUID toUserId) {
+    UserAccess access = userAccessRepository
+        .findByConnectedFromIdAndConnectedToId(fromUserId, toUserId).orElseThrow();
     access.setIsConnectionAccepted(true);
     userAccessRepository.save(access);
   }

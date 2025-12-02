@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.share_terminal.dto.UserResponse;
 import com.example.share_terminal.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,9 +37,11 @@ public class Auth {
 
   @PostMapping("/sign-up")
   @ResponseBody
-  public ResponseEntity<UserResponse> signUp(@RequestBody Map<String, String> request) {
-    UserResponse user = userService.registerUser(request.get("email"));
-    return ResponseEntity.ok(user);
+  public ResponseEntity<HashMap<String, String>> signUp(@RequestBody Map<String, String> request) {
+    userService.registerUser(request.get("email"));
+    HashMap<String, String> hashMap = new HashMap<>();
+    hashMap.put("message", "credentials sent on email");
+    return ResponseEntity.ok(hashMap);
   }
 
   @GetMapping("/setup-password")
