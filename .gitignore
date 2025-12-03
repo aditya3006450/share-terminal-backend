@@ -34,3 +34,4 @@ build/
 
 ### secreats ###
 src/main/resources/secrets.properties
+.env
